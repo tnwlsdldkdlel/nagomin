@@ -61,5 +61,11 @@ export default {
     } else {
       return false;
     }
-  }
+  },
+
+  removeJWT() {
+    if(Cookies.get('jwt')) {
+      Cookies.remove('jwt');
+    }
+  },
 }
