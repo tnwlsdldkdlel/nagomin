@@ -53,5 +53,13 @@ export default {
     }
 
     Cookies.set('jwt', jwt, { expires: day });
+  },
+
+  isLogin() {
+    if(Cookies.get('jwt')) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

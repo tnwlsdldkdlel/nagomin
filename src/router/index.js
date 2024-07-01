@@ -1,7 +1,7 @@
 import { route } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
-import COMMON from "../common/common";
+import Cookies from 'js-cookie';
 
 /*
  * If not building with SSR mode, you can
@@ -28,12 +28,12 @@ export default route(function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach((to, from, next) => {
-    const publicRoutes = ['/', '/join'];
+    const publicRoutes = ['/', '/join', '/login'];
 
     if (publicRoutes.includes(to.path)) {
       next();
     } else {
-      const token = COMMON.getJWT();
+      const token = Cookies.get('jwt');
 
       if (!token) {
         next('/login');
