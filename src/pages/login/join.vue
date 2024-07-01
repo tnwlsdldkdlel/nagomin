@@ -1,7 +1,29 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <div style="padding-top: 10%; padding-left: 10%; font-size: x-large">
-      <q-icon name="arrow_back" @click="clickMove('login')"></q-icon>
+    <div
+      style="
+        padding-top: 10%;
+        padding-left: 5%;
+        padding-right: 5%;
+        width: 100%;
+        display: flex;
+      "
+    >
+      <q-icon
+        name="arrow_back"
+        @click="clickMove('login')"
+        style="width: 1%; font-size: x-large"
+      ></q-icon>
+      <div
+        style="
+          width: 99%;
+          text-align: center;
+          font-size: large;
+          font-weight: 600;
+        "
+      >
+        회원가입
+      </div>
     </div>
     <div style="padding: 10%">
       <q-input v-model="join.id" placeholder="아이디" :error="error.id"
@@ -14,6 +36,7 @@
       >
       <q-input
         v-model="join.password"
+        type="password"
         placeholder="비밀번호"
         :error="error.password"
       >
@@ -254,10 +277,13 @@ export default {
         const url = "/v1/user/join";
 
         await axios
-          .post(url, this.join)
+          .post(url, this.join, {
+            withCredentials: true,
+          })
           .then((res) => {
             if (res.data.code == 200) {
-              location.href = "/"
+              COMMON.setJWT(res.data.data.jwt, 1);
+              this.$router.push({name: "isVerified"});
             } else if (res.data.code == 409) {
               this.error["id"] = true;
               this.errorMessage["id"] = "이미 존재하는 유저 입니다.";

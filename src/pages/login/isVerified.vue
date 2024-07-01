@@ -1,99 +1,132 @@
+<style>
+#q-app
+  > div
+  > div:nth-child(2)
+  > div:nth-child(4)
+  > label:nth-child(1)
+  > div
+  > div.q-field__control.relative-position.row.no-wrap.text-negative
+  > div.q-field__append.q-field__marginal.row.no-wrap.items-center.q-anchor--skip
+  > i,
+#q-app
+  > div
+  > div:nth-child(2)
+  > div:nth-child(4)
+  > label:nth-child(2)
+  > div
+  > div.q-field__control.relative-position.row.no-wrap.text-negative
+  > div.q-field__append.q-field__marginal.row.no-wrap.items-center.q-anchor--skip
+  > i,
+#q-app
+  > div
+  > div:nth-child(2)
+  > div:nth-child(4)
+  > label:nth-child(3)
+  > div
+  > div.q-field__control.relative-position.row.no-wrap.text-negative
+  > div.q-field__append.q-field__marginal.row.no-wrap.items-center.q-anchor--skip
+  > i,
+#q-app
+  > div
+  > div:nth-child(2)
+  > div:nth-child(4)
+  > label:nth-child(4)
+  > div
+  > div.q-field__control.relative-position.row.no-wrap.text-negative
+  > div.q-field__append.q-field__marginal.row.no-wrap.items-center.q-anchor--skip
+  > i {
+  display: none;
+}
+</style>
 <template>
   <q-layout view="lHh Lpr lFf">
-    <div style="padding-top: 10%; padding-left: 10%; font-size: x-large">
-      <q-icon name="arrow_back" @click="clickMove('login')"></q-icon>
+    <div
+      style="
+        padding-top: 10%;
+        padding-left: 5%;
+        padding-right: 5%;
+        width: 100%;
+        display: flex;
+      "
+    >
+      <div
+        style="
+          width: 95%;
+          text-align: center;
+          font-size: large;
+          font-weight: 600;
+        "
+      >
+        본인인증
+      </div>
     </div>
     <div style="padding: 10%">
-      <q-input v-model="join.id" placeholder="아이디" :error="error.id"
-        ><template v-slot:prepend>
-          <q-icon name="person" />
-        </template>
-        <template v-slot:error>
-          {{ errorMessage.id }}
-        </template></q-input
-      >
-      <q-input
-        v-model="join.password"
-        placeholder="비밀번호"
-        :error="error.password"
-      >
-        <template v-slot:prepend>
-          <q-icon name="lock" />
-        </template>
-        <template v-slot:error>
-          {{ errorMessage.password }}
-        </template>
-      </q-input>
-      <div style="font-size: smaller; font-weight: bolder">
-        * 8~16자의 영문 소문자, 숫자, 특수문자로 입력해주세요.
-      </div>
-      <q-input
-        v-model="join.email"
-        type="email"
-        placeholder="이메일"
-        :error="error.email"
-        ><template v-slot:prepend>
-          <q-icon name="email" />
-        </template>
-        <template v-slot:error>
-          {{ errorMessage.email }}
-        </template></q-input
-      >
-      <q-select
-        multiple
-        v-model="interest"
-        :options="interests"
-        stack-label
-        label="관심사"
-        color="positive"
-        :error="error.interest"
-      >
-        <template v-slot:selected-item="scope">
-          <q-chip
-            removable
-            dense
-            @remove="scope.removeAtIndex(scope.index)"
-            :tabindex="scope.tabindex"
-            color="white"
-            text-color="positive"
-            class="q-ma-none"
-          >
-            <q-avatar
-              color="positive"
-              text-color="white"
-              :icon="scope.opt.icon"
-            />
-            {{ scope.opt.label }}
-          </q-chip>
-        </template>
-        <template v-slot:error>
-          {{ errorMessage.interest }}
-        </template>
-      </q-select>
+      <span
+        >가입하신 <b>{{ isVerified.email }}</b
+        >로 확인 코드를 보냈습니다.</span
+      ><br />
+      <span><b style="color: red">5분이내</b>에 입력 해주세요.</span>
       <div style="display: flex">
-        <div
-          style="
-            margin: auto;
-            margin-left: unset;
-            color: #21ba45;
-            font-weight: bolder;
-          "
-        >
-          나의 성향
-        </div>
-        <div style="margin: auto">
-          <q-radio v-model="join.mbti" val="T" label="T (사고)" />
-          <q-radio v-model="join.mbti" val="F" label="F (감정)" />
-        </div>
+        <q-input
+          filled
+          mask="#"
+          unmasked-value
+          v-model="isVerified.code1"
+          style="padding: 1%"
+          :error="error.code1"
+        />
+        <q-input
+          filled
+          mask="#"
+          unmasked-value
+          v-model="isVerified.code2"
+          style="padding: 1%"
+          :error="error.code2"
+        />
+        <q-input
+          filled
+          mask="#"
+          unmasked-value
+          v-model="isVerified.code3"
+          style="padding: 1%"
+          :error="error.code3"
+        />
+        <q-input
+          filled
+          mask="#"
+          unmasked-value
+          v-model="isVerified.code4"
+          style="padding: 1%"
+          ref="RefCode4"
+          :error="error.code4"
+        />
       </div>
-    </div>
-    <div style="padding: 10%; display: ruby-text">
-      <q-btn
-        color="positive"
-        label="회원가입"
-        style="width: -webkit-fill-available"
-        @click="clickJoin()"
-      />
+      <div v-if="errorCode" style="font-weight: bolder; color: red">
+        확인 코드가 만료되었거나, 잘못된 코드입니다. 다시 확인해주세요.
+      </div>
+
+      <div style="padding-top: 10%; text-align: center">
+        <span style="font-style: italic">이메일이 오지 않았나요?</span
+        >&nbsp;&nbsp;
+        <span style="font-weight: bolder"
+          ><a @click="clickResend()">다시보내기</a></span
+        >
+      </div>
+      <div style="padding-top: 1%; text-align: center">
+        <span style="font-style: italic">이메일이 틀렸나요?</span>&nbsp;&nbsp;
+        <span style="font-weight: bolder"
+          ><a @click="clickUpdateEmail()">이메일 수정하기</a></span
+        >
+      </div>
+
+      <div style="padding-top: 20%">
+        <q-btn
+          color="positive"
+          label="확인"
+          style="width: -webkit-fill-available"
+          @click="clickVerified()"
+        />
+      </div>
     </div>
   </q-layout>
 </template>
@@ -102,66 +135,40 @@
 import { reactive, ref } from "vue";
 import COMMON from "../../common/common";
 import axios from "axios";
+import { useQuasar } from "quasar";
+import axiosInstance from "../../common/axiosInstance";
 
 export default {
   setup() {
-    const join = reactive({
-      id: "",
-      password: "",
-      email: "",
-      interests: [],
-      mbti: "T",
+    const $q = useQuasar();
+
+    const isVerified = reactive({
+      code1: null,
+      code2: null,
+      code3: null,
+      code4: null,
+      email: COMMON.getJWT()["email"],
     });
 
-    var error = ref({
-      id: false,
-      password: false,
-      email: false,
-      interest: false,
+    const error = ref({
+      code1: false,
+      code2: false,
+      code3: false,
+      code4: false,
     });
-    var errorMessage = ref({
-      id: "",
-      password: "",
-      email: "",
-      birth: "",
-      interest: "",
-    });
-
-    var interests = ref([]);
-    var interest = ref([]);
-    const fetchData = async () => {
-      try {
-        const url = "/v1/user/interest";
-        const response = await axios.get(url);
-
-        if (response.data.code === 200) {
-          interests.value = response.data.data;
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
+    const errorCode = ref(false);
 
     return {
-      join,
-      interest,
-      interests,
+      $q,
+      isVerified,
       error,
-      errorMessage,
+      errorCode,
     };
   },
   methods: {
-    clickMove(path) {
-      location.href = "/" + path;
-    },
-    CheckJoinVaildation(data) {
+    CheckCodeVaildation(data) {
       const keys = Object.keys(data);
       const resultConfig = [];
-      const emailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-      const passwordReg =
-        /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,16}$/g;
 
       for (var index in keys) {
         var result = false;
@@ -170,54 +177,38 @@ export default {
         var key = keys[index];
 
         switch (key) {
-          case "id":
+          case "code1":
             if (COMMON.isEmpty(data[key])) {
-              message = "아이디를 입력해주세요.";
-              target = "id";
+              target = "code1";
             } else {
               result = true;
             }
             break;
 
-          case "password":
+          case "code2":
             if (COMMON.isEmpty(data[key])) {
-              message = "비밀번호를 입력해주세요.";
-              target = "password";
+              target = "code2";
             } else {
-              if (!passwordReg.test(data[key])) {
-                message =
-                  "8~16자의 영문 소문자, 숫자, 특수문자를 사용해 주세요";
-                target = "password";
-              } else {
-                result = true;
-              }
+              result = true;
             }
             break;
 
+          case "code3":
+            if (COMMON.isEmpty(data[key])) {
+              target = "code3";
+            } else {
+              result = true;
+            }
+            break;
+
+          case "code4":
+            if (COMMON.isEmpty(data[key])) {
+              target = "code4";
+            } else {
+              result = true;
+            }
+            break;
           case "email":
-            if (COMMON.isEmpty(data[key])) {
-              message = "이메일을 입력해주세요.";
-              target = "email";
-            } else {
-              if (!emailReg.test(data[key])) {
-                message = "올바른 이메일이 아닙니다. 다시 확인해주세요.";
-                target = "email";
-              } else {
-                result = true;
-              }
-            }
-            break;
-
-          case "interests":
-            if (COMMON.isEmpty(data[key])) {
-              message = "관심사를 1개이상 선택해주세요.";
-              target = "interest";
-            } else {
-              result = true;
-            }
-            break;
-
-          case "mbti":
             result = true;
             break;
         }
@@ -233,40 +224,68 @@ export default {
       }
 
       // error 메시지 초기화.
-      COMMON.resetError(this.error, this.errorMessage);
+      COMMON.resetError(this.error);
       var flag = true;
       for (var index in resultConfig) {
         this.error[resultConfig[index].target] = true;
-        this.errorMessage[resultConfig[index].target] =
-          resultConfig[index].message;
         flag = false;
       }
 
       return flag;
     },
-    async clickJoin() {
-      this.join.interests = [];
-      for (var index in this.interest) {
-        this.join.interests.push(this.interest[index].value);
-      }
+    async clickVerified() {
+      if (this.CheckCodeVaildation(this.isVerified)) {
+        const url = "/user/validate/email";
 
-      if (this.CheckJoinVaildation(this.join)) {
-        const url = "/v1/user/join";
-
-        await axios
-          .post(url, this.join)
+        await axiosInstance
+          .post(url, this.isVerified)
           .then((res) => {
             if (res.data.code == 200) {
-              location.href = "/isVerified";
-            } else if (res.data.result == "exist") {
-              this.error["id"] = true;
-              this.errorMessage["id"] = "이미 존재하는 회원 아이디입니다.";
+              this.$router.push({
+                name: "index",
+              });
+            } else if (res.data.code == 400 || res.data.code == 401) {
+              this.error["code1"] = true;
+              this.error["code2"] = true;
+              this.error["code3"] = true;
+              this.error["code4"] = true;
+              this.errorCode = true;
             }
           })
           .catch((res) => {
             console.log(res);
           });
+      } else {
+        this.errorCode = true;
       }
+    },
+    async clickResend() {
+      const url = "/v1/user/validate/email/" + this.isVerified.email;
+
+      await axios
+        .get(url, this.isVerified)
+        .then((res) => {
+          if (res.data.code == 200) {
+            this.$q.dialog({
+              dark: true,
+              title: "이메일 재전송",
+              message: this.isVerified.email + "로 재전송 했습니다.",
+            });
+          } else if (res.data.code == 400 || res.data.code == 401) {
+            this.error["code1"] = true;
+            this.error["code2"] = true;
+            this.error["code3"] = true;
+            this.error["code4"] = true;
+            this.errorCode = true;
+          }
+        })
+        .catch((res) => {
+          console.log(res);
+        });
+    },
+    clickUpdateEmail() {
+      this.$router.push({
+        name: "updateEmail"});
     },
   },
 };

@@ -1,11 +1,12 @@
-
 const routes = [
   {
     path: '/',
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: '/login', component: () => import('pages/login/login.vue') },
-      { path: '/join', component: () => import('pages/login/join.vue') }
+      { path: '', name: "index", component: () => import('pages/IndexPage.vue') },
+      { path: '/login', component: () => import('pages/login/Login.vue') },
+      { path: '/join', component: () => import('pages/login/Join.vue') },
+      { path: '/isVerified', name: "isVerified", component: () => import('pages/login/IsVerified.vue') },
+      { path: '/updateEmail', name: "updateEmail", component: () => import('pages/login/UpdateEmail.vue') }
     ]
   },
 

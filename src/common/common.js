@@ -1,3 +1,6 @@
+import Cookies from 'js-cookie';
+import VueJwtDecode from "vue-jwt-decode";
+
 export default {
   isEmpty(value) {
     if (value === "" || value === null || value === undefined || (typeof value === "string" && value.trim().length === 0)
@@ -8,6 +11,7 @@ export default {
 
     return false;
   },
+
   getToday() {
     var today = new Date();
     var year = today.getFullYear();
@@ -36,6 +40,18 @@ export default {
     for (var index in errorMessage) {
       errorMessage[index] = "";
     }
-  }
+  },
 
+  getJWT() {
+    const jwt = Cookies.get('jwt');
+    return VueJwtDecode.decode(jwt)["info"];
+  },
+
+  setJWT(jwt, day) {
+    if(Cookies.get('jwt')) {
+      Cookies.remove('jwt');
+    }
+
+    Cookies.set('jwt', jwt, { expires: day });
+  }
 }
