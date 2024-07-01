@@ -260,9 +260,9 @@ export default {
       }
     },
     async clickResend() {
-      const url = "/v1/user/validate/email/" + this.isVerified.email;
+      const url = "/user/validate/email/" + this.isVerified.email;
 
-      await axios
+      await axiosInstance
         .get(url, this.isVerified)
         .then((res) => {
           if (res.data.code == 200) {
