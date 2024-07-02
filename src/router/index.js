@@ -28,7 +28,7 @@ export default route(function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach((to, from, next) => {
-    const publicRoutes = ['/', '/join', '/login'];
+    const publicRoutes = ['/', '/join', '/login', '/findPassword', '/findId', '/newPassword'];
 
     if (publicRoutes.includes(to.path)) {
       next();

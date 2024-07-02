@@ -20,7 +20,7 @@
         </template>
       </q-input>
     </div>
-    <div style="padding: 10%; display: ruby-text">
+    <div style="padding: 10%; padding-top: 1%; display: ruby-text">
       <q-btn
         color="positive"
         icon-right="login"
@@ -38,8 +38,16 @@
       <q-btn
         flat
         color="dark"
-        label="아이디/비밀번호 찾기"
+        label="아이디 찾기"
         style="margin-top: 3%"
+        @click="clickMove('findId')"
+      />
+      <q-btn
+        flat
+        color="dark"
+        label="비밀번호 찾기"
+        style="margin-top: 3%"
+        @click="clickMove('findPassword')"
       />
     </div>
   </q-layout>
